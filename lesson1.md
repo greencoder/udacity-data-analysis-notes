@@ -124,3 +124,38 @@ submission_num_unique_students = len(set([e['account_key'] for e in project_subm
 # To turn a list into a set, you can wrap the list in the set() function:
 # unique_enrollments = set(enrollments)
 ```
+
+# 10. Quiz: Problems in the data
+
+> Rename the `acct` column to `account_key` in the `daily_engagement` table
+
+Here is the solution as presented by the instructor:
+
+```
+import unicodecsv
+
+def read_csv(filename):
+    with open(filename, 'rb') as f:
+        reader = unicodecsv.DictReader(f)
+        return list(reader)
+
+def get_unique_students(data):
+    unique_students = set()
+    for data_point in data:
+        unique_students.add(data_point['account_key'])
+    return unique_students
+
+daily_engagement = read_csv('/datasets/ud170/udacity-students/daily_engagement.csv')
+for engagement_record in daily_engagement:
+    engagement_record['account_key'] = engagement_record['acct']
+    del engagement_record['acct']
+
+unique_engagement_students = get_unique_students(daily_engagement)
+print daily_engagement[0]['account_key']
+
+```
+
+The output is as follows:
+```
+u'0'
+```
